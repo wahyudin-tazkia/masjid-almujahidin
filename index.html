@@ -274,6 +274,8 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .settings-btn:hover{background:#fff;transform:scale(1.06);}
 .hadist-admin-btn{position:absolute;left:18px;bottom:14px;display:flex;align-items:center;gap:6px;background:rgba(6,22,10,0.75);color:#f0c94a;padding:6px 14px;border-radius:50px;font-size:0.72rem;font-weight:800;cursor:pointer;backdrop-filter:blur(8px);border:1px solid rgba(240,201,74,0.22);transition:all 0.2s;z-index:20;}
 .hadist-admin-btn:hover{background:rgba(6,22,10,0.95);border-color:rgba(240,201,74,0.5);}
+.password-quick-btn{position:absolute;left:18px;bottom:48px;display:flex;align-items:center;gap:6px;background:rgba(26,107,60,0.85);color:#f0c94a;padding:6px 14px;border-radius:50px;font-size:0.72rem;font-weight:800;cursor:pointer;backdrop-filter:blur(8px);border:1px solid rgba(240,201,74,0.3);transition:all 0.2s;z-index:20;}
+.password-quick-btn:hover{background:rgba(26,107,60,0.95);border-color:rgba(240,201,74,0.6);transform:translateY(-2px);box-shadow:0 4px 12px rgba(240,201,74,0.3);}
 
 /* Mode Muadzin & GPS status - pindah ke pojok kiri bawah agar tidak menghalangi */
 .mode-badge{display:flex;align-items:center;gap:7px;background:rgba(15,15,15,0.78);color:#fff;padding:7px 16px;border-radius:50px;font-size:0.82rem;font-weight:700;backdrop-filter:blur(10px);box-shadow:0 2px 14px rgba(0,0,0,0.4);cursor:pointer;transition:all 0.2s;}
@@ -399,6 +401,8 @@ input[type=file].qr-input{display:none;}
 .live-badge{background:rgba(240,201,74,0.2);color:#f0c94a;font-size:0.58rem;font-weight:900;padding:2px 8px;border-radius:50px;border:1px solid rgba(240,201,74,0.35);letter-spacing:1.5px;margin-left:6px;vertical-align:middle;}
 .admin-close{width:34px;height:34px;background:rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:rgba(255,255,255,0.8);border:none;transition:all 0.2s;font-family:'Nunito',sans-serif;}
 .admin-close:hover{background:rgba(255,255,255,0.25);}
+.btn-password-quick{padding:8px 16px;background:rgba(240,201,74,0.2);color:#f0c94a;border:1px solid rgba(240,201,74,0.4);border-radius:10px;font-size:0.75rem;font-weight:800;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;white-space:nowrap;}
+.btn-password-quick:hover{background:rgba(240,201,74,0.3);border-color:rgba(240,201,74,0.6);transform:translateY(-1px);}
 .admin-tabs{display:flex;border-bottom:2px solid #f0f0f0;flex-shrink:0;background:#fafafa;overflow-x:auto;}
 .admin-tab{padding:11px 18px;font-size:0.8rem;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;}
 .admin-tab:hover{color:#1a6b3c;}
@@ -520,6 +524,8 @@ input[type=file].qr-input{display:none;}
 .btn-apply:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(26,107,60,0.35);}
 .btn-secondary{padding:9px 14px;background:#f0f0f0;color:#666;border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:0.86rem;font-weight:700;cursor:pointer;}
 .btn-secondary:hover{background:#e0e0e0;}
+.btn-secondary.password-btn{background:linear-gradient(135deg,#f0c94a,#d4a832);color:#1a1a1a;border:1px solid rgba(240,201,74,0.3);}
+.btn-secondary.password-btn:hover{background:linear-gradient(135deg,#d4a832,#b8952e);transform:translateY(-1px);box-shadow:0 4px 12px rgba(240,201,74,0.3);}
 /* edit modal */
 .edit-modal{position:fixed;inset:0;z-index:3500;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px);}
 .edit-modal.show{display:flex;}
@@ -944,6 +950,7 @@ input[type=file].qr-input{display:none;}
       <div class="countdown-pill"><span>Menuju</span><span class="next-label" id="next-name">—</span><span class="next-time" id="countdown-main">--:--:--</span></div>
     </div>
     <div class="hadist-admin-btn" onclick="openAdmin('hadist')">📖 Kelola Hadist</div>
+    <div class="password-quick-btn" onclick="openAdmin('password')" title="Ganti Password Admin">🔐 Password</div>
     <div class="gps-status" id="gps-status" onclick="openKecamatanModal()" title="Klik untuk pilih kecamatan">
       <div class="gps-dot loading" id="gps-dot"></div>
       <span id="gps-text">📍 Pilih Kecamatan</span>
@@ -1077,7 +1084,10 @@ input[type=file].qr-input{display:none;}
         <div class="admin-logo">🛠️</div>
         <div><div class="admin-title">Admin Display Masjid <span class="live-badge">LIVE</span></div><div class="admin-subtitle">Kelola Running Text, Hadist, Jadwal Sholat, Kas &amp; Info Masjid</div></div>
       </div>
-      <button class="admin-close" onclick="closeAdmin()">✕</button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="btn-password-quick" onclick="switchTab('password')" title="Ganti Password Admin">🔐 Ganti Password</button>
+        <button class="admin-close" onclick="closeAdmin()">✕</button>
+      </div>
     </div>
     <div class="admin-tabs">
       <div class="admin-tab active" id="tab-ticker" onclick="switchTab('ticker')">📢 Running Text</div>
@@ -1481,6 +1491,7 @@ input[type=file].qr-input{display:none;}
       <div class="footer-info" id="footer-info">—</div>
       <div class="footer-btns">
         <button class="btn-secondary" onclick="resetTicker()">↩ Reset Ticker</button>
+        <button class="btn-secondary password-btn" onclick="switchTab('password')" title="Ganti Password Admin">🔐 Password</button>
         <button class="btn-secondary" onclick="closeAdmin()">Tutup</button>
         <button class="btn-apply" onclick="applyAll()">✅ Terapkan &amp; Tutup</button>
       </div>
