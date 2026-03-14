@@ -339,7 +339,7 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .qr-img-wrap img.loaded{display:block;}
 .qr-placeholder{display:flex;flex-direction:column;align-items:center;gap:2px;}
 .qr-placeholder .qr-icon{font-size:1.6rem;}
-.qr-placeholder .qr-hint{font-size:0.55rem;color:#ffb84d;font-weight:700;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,0.5);}
+.qr-placeholder .qr-hint{font-size:0.55rem;color:#1a6b3c;font-weight:700;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,0.1);}
 .qr-bank{font-size:0.72rem;font-weight:900;color:#1a1a1a;}
 .qr-no{font-size:0.65rem;color:#888;font-weight:600;}
 input[type=file].qr-input{display:none;}
@@ -968,11 +968,11 @@ input[type=file].qr-input{display:none;}
         <div class="slide-barcode">
           <div class="barcode-left"><div class="bc-title">💚 Donasi &amp; Infaq</div><div class="bc-sub">Scan QR atau transfer ke rekening</div><div class="bc-ayat">"Barangsiapa membangun masjid,<br>Allah bangunkan rumah di surga"</div></div>
           <div class="barcode-qr-area">
-            <div class="qr-slot"><label for="qr1"><div class="qr-img-wrap"><img id="qr-img-1" alt="QRIS"><div class="qr-placeholder" id="qr-ph-1"><span class="qr-icon">📲</span><span class="qr-hint">🔐 PASSWORD<br>QRIS</span></div></div></label><input type="file" class="qr-input" id="qr1" accept="image/*" onchange="loadQR(this,'qr-img-1','qr-ph-1')"><div class="qr-bank">QRIS</div><div class="qr-no">Semua e-wallet</div></div>
+            <div class="qr-slot"><label for="qr1"><div class="qr-img-wrap"><img id="qr-img-1" alt="QRIS"><div class="qr-placeholder" id="qr-ph-1"><span class="qr-icon">📲</span><span class="qr-hint">🔐 ADMIN<br>QRIS</span></div></div></label><input type="file" class="qr-input" id="qr1" accept="image/*" onchange="loadQR(this,'qr-img-1','qr-ph-1')"><div class="qr-bank">QRIS</div><div class="qr-no">Semua e-wallet</div></div>
             <div class="bc-sep"></div>
-            <div class="qr-slot"><label for="qr2"><div class="qr-img-wrap"><img id="qr-img-2" alt="BSI"><div class="qr-placeholder" id="qr-ph-2"><span class="qr-icon">🏦</span><span class="qr-hint">🔐 PASSWORD<br>BSI</span></div></div></label><input type="file" class="qr-input" id="qr2" accept="image/*" onchange="loadQR(this,'qr-img-2','qr-ph-2')"><div class="qr-bank">Bank BSI</div><div class="qr-no">Transfer / VA</div></div>
+            <div class="qr-slot"><label for="qr2"><div class="qr-img-wrap"><img id="qr-img-2" alt="BSI"><div class="qr-placeholder" id="qr-ph-2"><span class="qr-icon">🏦</span><span class="qr-hint">🔐 ADMIN<br>BSI</span></div></div></label><input type="file" class="qr-input" id="qr2" accept="image/*" onchange="loadQR(this,'qr-img-2','qr-ph-2')"><div class="qr-bank">Bank BSI</div><div class="qr-no">Transfer / VA</div></div>
             <div class="bc-sep"></div>
-            <div class="qr-slot"><label for="qr3"><div class="qr-img-wrap"><img id="qr-img-3" alt=""><div class="qr-placeholder" id="qr-ph-3"><span class="qr-icon">➕</span><span class="qr-hint">🔐 PASSWORD<br>LAINNYA</span></div></div></label><input type="file" class="qr-input" id="qr3" accept="image/*" onchange="loadQR(this,'qr-img-3','qr-ph-3')"><div class="qr-bank" id="qr-label-3">Lainnya</div><div class="qr-no">Custom</div></div>
+            <div class="qr-slot"><label for="qr3"><div class="qr-img-wrap"><img id="qr-img-3" alt=""><div class="qr-placeholder" id="qr-ph-3"><span class="qr-icon">➕</span><span class="qr-hint">🔐 ADMIN<br>LAINNYA</span></div></div></label><input type="file" class="qr-input" id="qr3" accept="image/*" onchange="loadQR(this,'qr-img-3','qr-ph-3')"><div class="qr-bank" id="qr-label-3">Lainnya</div><div class="qr-no">Custom</div></div>
           </div>
           <div class="bc-sep"></div>
           <div class="barcode-rekening"><div class="rek-title">📋 Rekening</div><div class="rek-item"><span class="rek-bank-badge rek-bsi">BSI</span><div><div class="rek-nomor" id="rek-bsi-no">7123 4567 89</div><div class="rek-nama" id="rek-bsi-nm">Masjid Al-Mujahidin</div></div></div><div class="rek-item"><span class="rek-bank-badge rek-btn">BTN</span><div><div class="rek-nomor" id="rek-btn-no">00125-01-5678-9</div><div class="rek-nama" id="rek-btn-nm">Masjid Al-Mujahidin</div></div></div></div>
@@ -2065,39 +2065,36 @@ function applyConfig(){
 }
 
 // QR
-function promptQRPassword(callback){
-  const password=prompt("🔐 Masukkan password untuk mengganti QR Code/Barcode:");
-  if(password===null)return false; // User cancelled
-  const correctPassword=getStoredPassword();
-  if(password===correctPassword){
-    if(callback)callback();
-    return true;
-  }else{
-    alert("❌ Password salah! Anda tidak memiliki izin untuk mengganti QR Code/Barcode.");
-    return false;
-  }
-}
-
 function loadQR(input,imgId,phId){
   const file=input.files[0];
   if(!file)return;
 
-  // Prompt for password before proceeding
-  promptQRPassword(()=>{
-    const reader=new FileReader();
-    reader.onload=e=>{
-      const img=document.getElementById(imgId),ph=document.getElementById(phId);
-      img.src=e.target.result;
-      img.classList.add("loaded");
-      if(ph)ph.style.display="none";
-      try{
-        localStorage.setItem("qr-"+imgId,e.target.result);
-      }catch(ex){
-        console.error("Error saving QR:",ex);
-      }
-    };
-    reader.readAsDataURL(file);
-  });
+  // Check if admin is logged in
+  if(!isAdminLoggedIn){
+    // Show message and redirect to admin login
+    alert("🔐 Anda harus login sebagai admin untuk mengganti QR Code/Barcode.\n\nSilakan buka panel admin terlebih dahulu.");
+    // Reset input
+    input.value="";
+    // Open admin login
+    openAdmin("password");
+    return;
+  }
+
+  // Admin is logged in - proceed with QR upload
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById(imgId),ph=document.getElementById(phId);
+    img.src=e.target.result;
+    img.classList.add("loaded");
+    if(ph)ph.style.display="none";
+    try{
+      localStorage.setItem("qr-"+imgId,e.target.result);
+      console.log("✅ QR Code saved successfully");
+    }catch(ex){
+      console.error("Error saving QR:",ex);
+    }
+  };
+  reader.readAsDataURL(file);
 
   // Reset input so same file can be selected again if needed
   input.value="";
@@ -2108,6 +2105,7 @@ function loadSavedQRs(){["qr-img-1","qr-img-2","qr-img-3"].forEach(id=>{try{cons
 // ADMIN
 // ═══════════════════════════════════════════════════
 let selEmoji=null,editType=null,editIdx=null;
+let isAdminLoggedIn=false;
 const TABS=["ticker","hadist","jadwal","tickersetting","masjid","kas","password"];
 // Admin password system
 const DEFAULT_PASSWORD="masjid123";
@@ -2131,7 +2129,10 @@ function checkAdminPassword(){
   const correctPassword=getStoredPassword();
   console.log("checkAdminPassword - input:", input, "correct:", correctPassword);
   if(input===correctPassword){
-    // Password correct - close login and show admin
+    // Password correct - set admin logged in status
+    isAdminLoggedIn=true;
+    console.log("✅ Admin logged in - QR editing enabled");
+    // Close login and show admin
     document.getElementById("admin-login-overlay").classList.remove("show");
     syncAdminFields();
     renderTickerList();
@@ -2229,7 +2230,9 @@ function closeAdmin(){
   const overlay = document.getElementById("admin-overlay");
   if(overlay){
     overlay.classList.remove("show");
-    console.log("✅ Admin panel ditutup");
+    // Set admin logged out status
+    isAdminLoggedIn=false;
+    console.log("✅ Admin panel ditutup - QR editing disabled");
   } else {
     console.error("❌ admin-overlay tidak ditemukan!");
   }
