@@ -950,7 +950,6 @@ input[type=file].qr-input{display:none;}
       <div class="countdown-pill"><span>Menuju</span><span class="next-label" id="next-name">—</span><span class="next-time" id="countdown-main">--:--:--</span></div>
     </div>
     <div class="hadist-admin-btn" onclick="openAdmin('hadist')">📖 Kelola Hadist</div>
-    <div class="password-quick-btn" onclick="openAdmin('password')" title="Ganti Password Admin">🔐 Password</div>
     <div class="gps-status" id="gps-status" onclick="openKecamatanModal()" title="Klik untuk pilih kecamatan">
       <div class="gps-dot loading" id="gps-dot"></div>
       <span id="gps-text">📍 Pilih Kecamatan</span>
@@ -2118,9 +2117,20 @@ function checkAdminPassword(){
 }
 function changePassword(){
   console.log("changePassword dipanggil");
-  const oldPass=document.getElementById("old-password").value;
-  const newPass=document.getElementById("new-password").value;
-  const confirmPass=document.getElementById("confirm-password").value;
+
+  // Pastikan elemen form ada
+  const oldPassEl=document.getElementById("old-password");
+  const newPassEl=document.getElementById("new-password");
+  const confirmPassEl=document.getElementById("confirm-password");
+
+  if(!oldPassEl||!newPassEl||!confirmPassEl){
+    alert("❌ Form password tidak ditemukan!\n\nSilakan buka tab Password terlebih dahulu.");
+    return;
+  }
+
+  const oldPass=oldPassEl.value;
+  const newPass=newPassEl.value;
+  const confirmPass=confirmPassEl.value;
   const currentPassword=getStoredPassword();
 
   console.log("Password lama input:", oldPass);
@@ -2153,12 +2163,13 @@ function changePassword(){
     console.log("Password berhasil diubah ke:", newPass);
 
     // Update display
-    document.getElementById("current-password-display").textContent="********";
+    const displayEl=document.getElementById("current-password-display");
+    if(displayEl)displayEl.textContent="********";
 
     // Reset form
-    document.getElementById("old-password").value="";
-    document.getElementById("new-password").value="";
-    document.getElementById("confirm-password").value="";
+    oldPassEl.value="";
+    newPassEl.value="";
+    confirmPassEl.value="";
 
     // Show success message
     alert("✅ Password BERHASIL diubah!\n\nPassword lama: "+currentPassword+"\nPassword baru: "+newPass+"\n\nPassword baru telah tersimpan di browser. Silakan ingat password baru ini untuk login berikutnya.");
@@ -2748,23 +2759,6 @@ function printKasLaporan() {
 
 // ─── Integrate ke switchTab ───────────────────────────────────────────────
 const _origSwitchTab = switchTab;
-function switchTab(tab) {
-  const allTabs = ['ticker','hadist','jadwal','tickersetting','masjid','kas'];
-  allTabs.forEach(t => {
-    const bd = document.getElementById('body-'+t);
-    const tb = document.getElementById('tab-'+t);
-    if (bd) bd.classList.toggle('active-tab', t===tab);
-    if (tb) tb.classList.toggle('active', t===tab);
-  });
-  if (tab==='tickersetting') syncTickerUI();
-  if (tab==='hadist') {
-    document.getElementById('hadist-visible-toggle').checked = cfg.hadist.visible;
-    document.getElementById('hadist-rotate').value = cfg.hadist.rotateInterval||60;
-  }
-  if (tab==='jadwal') syncJadwalFields();
-  if (tab==='kas') renderKasAdmin();
-}
-
 // ─── Init KAS ─────────────────────────────────────────────────────────────
 initKas();
 renderKasDisplay();
