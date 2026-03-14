@@ -1064,7 +1064,6 @@ input[type=file].qr-input{display:none;}
         <button class="btn-login" onclick="checkAdminPassword()">🔓 Masuk</button>
         <button class="btn-cancel" onclick="cancelAdminLogin()">✕ Batal</button>
       </div>
-      <div class="login-hint">💡 Password default: <strong>masjid123</strong></div>
       <div class="login-error" id="login-error"></div>
     </div>
   </div>
@@ -1087,6 +1086,7 @@ input[type=file].qr-input{display:none;}
       <div class="admin-tab" id="tab-tickersetting" onclick="switchTab('tickersetting')">⚙️ Gaya Ticker</div>
       <div class="admin-tab" id="tab-masjid" onclick="switchTab('masjid')">🕌 Info Masjid</div>
       <div class="admin-tab" id="tab-kas" onclick="switchTab('kas')">💰 Laporan Kas</div>
+      <div class="admin-tab" id="tab-password" onclick="switchTab('password')">🔐 Password</div>
     </div>
 
     <!-- TAB TICKER -->
@@ -1415,6 +1415,49 @@ input[type=file].qr-input{display:none;}
           <div>
             <button class="btn-kas-add masuk" style="margin:0;" onclick="addKasPeriode()">+ Buat Periode Baru</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB PASSWORD -->
+    <div class="admin-body" id="body-password">
+      <div class="section-title">🔐 Pengaturan Password Admin</div>
+      <div style="background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:14px;padding:20px;border:2px solid #dee2e6;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <div style="font-size:2.5rem;">🔐</div>
+          <div>
+            <div style="font-size:0.85rem;font-weight:900;color:#495057;margin-bottom:4px;">Password Admin Saat Ini</div>
+            <div style="font-size:0.75rem;color:#6c757d;">Ganti password untuk keamanan panel admin masjid</div>
+          </div>
+        </div>
+
+        <div style="display:grid;gap:14px;">
+          <div class="modal-field">
+            <label>Password Lama</label>
+            <input type="password" id="old-password" placeholder="Masukkan password lama">
+          </div>
+          <div class="modal-field">
+            <label>Password Baru</label>
+            <input type="password" id="new-password" placeholder="Masukkan password baru">
+          </div>
+          <div class="modal-field">
+            <label>Konfirmasi Password Baru</label>
+            <input type="password" id="confirm-password" placeholder="Ulangi password baru">
+          </div>
+          <button class="btn-save" onclick="changePassword()" style="margin-top:8px;">🔐 Ganti Password</button>
+        </div>
+      </div>
+
+      <div style="background:#fff3cd;border-radius:10px;padding:14px;border:2px solid #ffc107;margin-top:12px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <span style="font-size:1.2rem;">💡</span>
+          <div style="font-size:0.75rem;font-weight:800;color:#856404;">INFO PENTING</div>
+        </div>
+        <div style="font-size:0.7rem;color:#856404;line-height:1.5;">
+          • Password minimal 4 karakter<br>
+          • Gunakan password yang kuat dan mudah diingat<br>
+          • Jangan share password kepada orang yang tidak berkepentingan<br>
+          • Password tersimpan di browser (localStorage)
         </div>
       </div>
     </div>
@@ -2008,9 +2051,13 @@ function loadSavedQRs(){["qr-img-1","qr-img-2","qr-img-3"].forEach(id=>{try{cons
 // ADMIN
 // ═══════════════════════════════════════════════════
 let selEmoji=null,editType=null,editIdx=null;
-const TABS=["ticker","hadist","jadwal","tickersetting","masjid","kas"];
+const TABS=["ticker","hadist","jadwal","tickersetting","masjid","kas","password"];
 // Admin password system
-const ADMIN_PASSWORD="masjid123"; // Password default - bisa diubah
+const DEFAULT_PASSWORD="masjid123";
+function getStoredPassword(){
+  const stored=localStorage.getItem("masjidAdminPassword");
+  return stored?stored:DEFAULT_PASSWORD;
+}
 function openAdmin(tab){
   // Show login overlay instead of direct admin panel
   document.getElementById("admin-login-overlay").classList.add("show");
@@ -2022,7 +2069,8 @@ function openAdmin(tab){
 }
 function checkAdminPassword(){
   const input=document.getElementById("admin-password-input").value;
-  if(input===ADMIN_PASSWORD){
+  const correctPassword=getStoredPassword();
+  if(input===correctPassword){
     // Password correct - close login and show admin
     document.getElementById("admin-login-overlay").classList.remove("show");
     syncAdminFields();
@@ -2038,6 +2086,44 @@ function checkAdminPassword(){
     document.getElementById("admin-password-input").value="";
     document.getElementById("admin-password-input").focus();
   }
+}
+function changePassword(){
+  const oldPass=document.getElementById("old-password").value;
+  const newPass=document.getElementById("new-password").value;
+  const confirmPass=document.getElementById("confirm-password").value;
+  const currentPassword=getStoredPassword();
+
+  // Validasi
+  if(!oldPass||!newPass||!confirmPass){
+    alert("⚠️ Semua field harus diisi!");
+    return;
+  }
+
+  if(oldPass!==currentPassword){
+    alert("❌ Password lama salah!");
+    return;
+  }
+
+  if(newPass.length<4){
+    alert("❌ Password baru minimal 4 karakter!");
+    return;
+  }
+
+  if(newPass!==confirmPass){
+    alert("❌ Password baru dan konfirmasi tidak cocok!");
+    return;
+  }
+
+  // Ganti password
+  localStorage.setItem("masjidAdminPassword",newPass);
+
+  // Reset form
+  document.getElementById("old-password").value="";
+  document.getElementById("new-password").value="";
+  document.getElementById("confirm-password").value="";
+
+  // Show success message
+  alert("✅ Password berhasil diubah!\n\nPassword baru Anda: "+newPass+"\n\nSilakan ingat password baru ini.");
 }
 function cancelAdminLogin(){
   document.getElementById("admin-login-overlay").classList.remove("show");
