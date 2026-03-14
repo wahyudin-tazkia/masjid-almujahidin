@@ -10,11 +10,182 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;overflow:hidden;}
 .screen{width:100vw;height:100vh;position:relative;display:flex;flex-direction:column;overflow:hidden;}
+
+/* ===== ISLAMIC ORNAMENTS & PATTERNS ===== */
+.islamic-border-top{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:8px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    #c9821a 10%,
+    #d4a832 20%,
+    #e6c25a 30%,
+    #d4a832 40%,
+    #c9821a 50%,
+    #d4a832 60%,
+    #e6c25a 70%,
+    #d4a832 80%,
+    #c9821a 90%,
+    transparent 100%
+  );
+  z-index:1000;
+  box-shadow:0 2px 8px rgba(201,130,26,0.4);
+}
+.islamic-border-bottom{
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:8px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    #c9821a 10%,
+    #d4a832 20%,
+    #e6c25a 30%,
+    #d4a832 40%,
+    #c9821a 50%,
+    #d4a832 60%,
+    #e6c25a 70%,
+    #d4a832 80%,
+    #c9821a 90%,
+    transparent 100%
+  );
+  z-index:1000;
+  box-shadow:0 -2px 8px rgba(201,130,26,0.4);
+}
+.islamic-corner{
+  position:absolute;
+  width:80px;
+  height:80px;
+  z-index:999;
+  opacity:0.6;
+}
+.islamic-corner::before,
+.islamic-corner::after{
+  content:'';
+  position:absolute;
+  background:linear-gradient(135deg,#c9821a,#e6c25a);
+}
+.islamic-corner::before{
+  width:3px;
+  height:40px;
+}
+.islamic-corner::after{
+  width:40px;
+  height:3px;
+}
+.islamic-corner.top-left{top:10px;left:10px;}
+.islamic-corner.top-left::before{top:0;left:0;}
+.islamic-corner.top-left::after{top:0;left:0;}
+.islamic-corner.top-right{top:10px;right:10px;}
+.islamic-corner.top-right::before{top:0;right:0;}
+.islamic-corner.top-right::after{top:0;right:0;}
+.islamic-corner.bottom-left{bottom:10px;left:10px;}
+.islamic-corner.bottom-left::before{bottom:0;left:0;}
+.islamic-corner.bottom-left::after{bottom:0;left:0;}
+.islamic-corner.bottom-right{bottom:10px;right:10px;}
+.islamic-corner.bottom-right::before{bottom:0;right:0;}
+.islamic-corner.bottom-right::after{bottom:0;right:0;}
+
+.islamic-pattern-overlay{
+  position:absolute;
+  inset:0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(201,130,26,0.03) 35px, rgba(201,130,26,0.03) 70px),
+    repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(201,130,26,0.02) 35px, rgba(201,130,26,0.02) 70px);
+  pointer-events:none;
+  z-index:1;
+}
+
+.islamic-header-ornament{
+  position:relative;
+  padding:8px 0;
+}
+.islamic-header-ornament::before{
+  content:'☪';
+  position:absolute;
+  left:20px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.8rem;
+  color:#c9821a;
+  opacity:0.8;
+}
+.islamic-header-ornament::after{
+  content:'☪';
+  position:absolute;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.8rem;
+  color:#c9821a;
+  opacity:0.8;
+}
+
+.bismillah{
+  font-family:'Amiri',serif;
+  font-size:1.2rem;
+  color:#c9821a;
+  text-align:center;
+  padding:8px 0;
+  opacity:0.9;
+  letter-spacing:1px;
+}
+
+.islamic-divider{
+  height:2px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    #c9821a 20%,
+    #e6c25a 50%,
+    #c9821a 80%,
+    transparent 100%
+  );
+  margin:12px 0;
+  position:relative;
+}
+.islamic-divider::before{
+  content:'☪';
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:#fff;
+  padding:0 12px;
+  color:#c9821a;
+  font-size:1rem;
+}
+
 .mosque-bg{position:absolute;inset:0;background:url('https://www.ventour.co.id/wp-content/uploads/2024/09/wp4749116-1024x576.jpg') center/cover no-repeat;z-index:0;transition:background-image 1s;}
 .mosque-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.22) 28%,rgba(0,0,0,0.04) 65%,transparent 80%);}
 
 /* TOP BAR */
-.top-bar{position:relative;z-index:10;display:flex;align-items:stretch;background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(248,250,252,0.95));backdrop-filter:blur(28px);min-height:120px;box-shadow:0 4px 40px rgba(0,0,0,0.15),0 0 0 1px rgba(255,255,255,0.5) inset;}
+.top-bar{
+  position:relative;
+  z-index:10;
+  display:flex;
+  align-items:stretch;
+  background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(248,250,252,0.95));
+  backdrop-filter:blur(28px);
+  min-height:120px;
+  box-shadow:0 4px 40px rgba(0,0,0,0.15),0 0 0 1px rgba(255,255,255,0.5) inset;
+  border-bottom:3px solid transparent;
+  background-image:linear-gradient(135deg,rgba(201,130,26,0.08),transparent 40%,rgba(201,130,26,0.08));
+  background-size:100% 100%;
+  background-position:0 0;
+}
+.top-bar::before{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg,transparent 0%,#c9821a 20%,#e6c25a 50%,#c9821a 80%,transparent 100%);
+}
 
 /* ===== CLOCK DESIGN - MODERN & ELEGANT ===== */
 .top-clock{
@@ -164,28 +335,63 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .minaret{width:3px;height:18px;background:linear-gradient(to bottom,#c9821a,#e6a020);border-radius:2px;}
 .minaret.tall{height:28px;}
 /* NAMA MASJID BESAR */
-.masjid-name-text{font-size:2.7rem;font-weight:900;color:#1a1a1a;display:flex;align-items:center;gap:14px;margin-top:20px;letter-spacing:-1.5px;line-height:1;font-family:'Nunito',sans-serif;position:relative;animation:masjidNameFloat 4s ease-in-out infinite;}
+.masjid-name-text{
+  font-size:2.7rem;
+  font-weight:900;
+  color:#c9821a;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-top:20px;
+  letter-spacing:-1.5px;
+  line-height:1;
+  font-family:'Amiri',serif;
+  position:relative;
+  animation:masjidNameFloat 4s ease-in-out infinite;
+  padding:12px 20px;
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(201,130,26,0.05),rgba(240,201,74,0.08));
+  border:2px solid rgba(201,130,26,0.2);
+}
 @keyframes masjidNameFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
 .masjid-name-text::before{
-  content:'';
+  content:'☪ ☪';
   position:absolute;
-  inset:-10px -20px;
-  background:radial-gradient(ellipse at center,rgba(26,107,60,0.08) 0%,transparent 70%);
-  border-radius:50%;
-  z-index:-1;
-  animation:masjidGlow 3s ease-in-out infinite;
+  top:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:0.7rem;
+  color:#c9821a;
+  opacity:0.6;
+  letter-spacing:8px;
 }
-@keyframes masjidGlow{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
-.masjid-name-text .icon{font-size:2.3rem;display:inline-block;animation:mosqueIconSwing 3s ease-in-out infinite;filter:drop-shadow(0 2px 4px rgba(201,130,26,0.3));}
+.masjid-name-text::after{
+  content:'☪ ☪';
+  position:absolute;
+  bottom:-8px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:0.7rem;
+  color:#c9821a;
+  opacity:0.6;
+  letter-spacing:8px;
+}
+.masjid-name-text .icon{
+  font-size:2.3rem;
+  display:inline-block;
+  animation:mosqueIconSwing 3s ease-in-out infinite;
+  filter:drop-shadow(0 2px 4px rgba(201,130,26,0.3));
+}
 @keyframes mosqueIconSwing{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
 .masjid-name-text span:not(.icon){
-  background:linear-gradient(135deg,#1a1a1a 0%,#2d5016 30%,#1a6b3c 50%,#2d5016 70%,#1a1a1a 100%);
+  background:linear-gradient(135deg,#c9821a 0%,#e6c25a 25%,#c9821a 50%,#e6c25a 75%,#c9821a 100%);
   background-size:200% auto;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   background-clip:text;
   animation:textShimmer 5s linear infinite;
   position:relative;
+  text-shadow:0 2px 8px rgba(201,130,26,0.3);
 }
 @keyframes textShimmer{to{background-position:200% center;}}
 .masjid-name-text span:not(.icon)::after{
@@ -301,21 +507,72 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .slides-wrapper{display:flex;transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);will-change:transform;}
 .slide-panel{min-width:100%;display:flex;align-items:stretch;}
 .jadwal-row{display:flex;align-items:stretch;flex:1;min-height:96px;}
-.sholat-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 8px;position:relative;transition:all 0.4s;}
-.sholat-item:not(:last-child)::after{content:'';position:absolute;right:0;top:18%;bottom:18%;width:1px;background:linear-gradient(to bottom,transparent,rgba(201,130,26,0.5),transparent);}
+.sholat-item{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:12px 8px;
+  position:relative;
+  transition:all 0.4s;
+  border-radius:8px;
+  background:linear-gradient(135deg,rgba(201,130,26,0.03),transparent);
+}
+.sholat-item::before{
+  content:'☪';
+  position:absolute;
+  top:4px;
+  font-size:0.6rem;
+  color:#c9821a;
+  opacity:0.3;
+}
+.sholat-item:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  right:0;
+  top:18%;
+  bottom:18%;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(201,130,26,0.5),transparent);
+}
 .sep-orn{position:absolute;right:-1px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;z-index:2;}
 .sep-diamond{width:6px;height:6px;background:#c9821a;transform:rotate(45deg);}
 .sep-line{width:1.5px;height:16px;background:linear-gradient(to bottom,#c9821a,transparent);}
 .sep-line.top{background:linear-gradient(to top,#c9821a,transparent);}
-.sholat-item.active{background:linear-gradient(135deg,#e6a020,#c9821a);flex:1.35;}
+.sholat-item.active{
+  background:linear-gradient(135deg,#1a4a2e,#0d2818);
+  flex:1.35;
+  border:1px solid rgba(201,130,26,0.3);
+  box-shadow:0 4px 16px rgba(201,130,26,0.3);
+}
+.sholat-item.active::before{
+  opacity:0.6;
+  font-size:0.8rem;
+}
 .sholat-item.active::after{display:none;}
 .sholat-item.passed .sholat-time{color:#bbb;}.sholat-item.passed .sholat-name{color:#aaa;}
-.sholat-name{font-size:0.8rem;font-weight:700;color:#444;letter-spacing:0.5px;margin-bottom:3px;}
-.sholat-time{font-size:1.75rem;font-weight:900;color:#1a1a1a;letter-spacing:-0.5px;line-height:1;}
-.sholat-item.active .sholat-name{color:rgba(255,255,255,0.88);}
-.sholat-item.active .sholat-time{color:#fff;font-size:2.1rem;}
-.sholat-countdown{font-size:0.78rem;font-weight:700;color:rgba(255,255,255,0.85);margin-top:3px;letter-spacing:1px;}
-.sholat-iqamah{font-size:0.65rem;font-weight:600;color:rgba(255,255,255,0.7);margin-top:1px;}
+.sholat-name{
+  font-size:0.8rem;
+  font-weight:700;
+  color:#444;
+  letter-spacing:0.5px;
+  margin-bottom:3px;
+  margin-top:12px;
+  font-family:'Amiri',serif;
+}
+.sholat-time{
+  font-size:1.75rem;
+  font-weight:900;
+  color:#1a1a1a;
+  letter-spacing:-0.5px;
+  line-height:1;
+  font-family:'Amiri',serif;
+}
+.sholat-item.active .sholat-name{color:rgba(240,201,74,0.9);}
+.sholat-item.active .sholat-time{color:#f0c94a;font-size:2.1rem;}
+.sholat-countdown{font-size:0.78rem;font-weight:700;color:rgba(240,201,74,0.85);margin-top:3px;letter-spacing:1px;}
+.sholat-iqamah{font-size:0.65rem;font-weight:600;color:rgba(240,201,74,0.7);margin-top:1px;}
 .slide-spotlight{min-width:100%;display:flex;align-items:stretch;min-height:96px;}
 .spotlight-main{background:linear-gradient(135deg,#e6a020,#c9821a);flex:2;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 20px;position:relative;overflow:hidden;}
 .spotlight-main::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(255,255,255,0.18) 0%,transparent 65%);}
@@ -393,16 +650,114 @@ input[type=file].qr-input{display:none;}
 .login-error.show{display:block;}
 .admin-panel{background:#fff;border-radius:22px;width:800px;max-width:96vw;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,0.55);animation:panelSlide 0.38s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;margin-bottom:40px;}
 @keyframes panelSlide{from{transform:translateY(-28px) scale(0.96);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}
-.admin-header{background:linear-gradient(135deg,#081a0e,#1a6b3c);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.admin-header-left{display:flex;align-items:center;gap:14px;}
-.admin-logo{width:40px;height:40px;background:rgba(240,201,74,0.18);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:1px solid rgba(240,201,74,0.3);}
-.admin-title{font-size:1.05rem;font-weight:900;color:#f0c94a;}
-.admin-subtitle{font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:1px;}
-.live-badge{background:rgba(240,201,74,0.2);color:#f0c94a;font-size:0.58rem;font-weight:900;padding:2px 8px;border-radius:50px;border:1px solid rgba(240,201,74,0.35);letter-spacing:1.5px;margin-left:6px;vertical-align:middle;}
-.admin-close{width:34px;height:34px;background:rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:rgba(255,255,255,0.8);border:none;transition:all 0.2s;font-family:'Nunito',sans-serif;}
-.admin-close:hover{background:rgba(255,255,255,0.25);}
-.btn-password-quick{padding:8px 16px;background:rgba(240,201,74,0.2);color:#f0c94a;border:1px solid rgba(240,201,74,0.4);border-radius:10px;font-size:0.75rem;font-weight:800;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;white-space:nowrap;}
-.btn-password-quick:hover{background:rgba(240,201,74,0.3);border-color:rgba(240,201,74,0.6);transform:translateY(-1px);}
+.admin-header{
+  background:linear-gradient(135deg,#0a1f0a,#1a4a2e);
+  padding:16px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-shrink:0;
+  border-bottom:3px solid transparent;
+  background-image:linear-gradient(135deg,rgba(201,130,26,0.15),transparent 50%,rgba(201,130,26,0.15));
+  background-size:100% 100%;
+  position:relative;
+}
+.admin-header::before{
+  content:'☪';
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.2rem;
+  color:#c9821a;
+  opacity:0.6;
+}
+.admin-header::after{
+  content:'☪';
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:1.2rem;
+  color:#c9821a;
+  opacity:0.6;
+}
+.admin-header-left{display:flex;align-items:center;gap:14px;padding-left:30px;}
+.admin-logo{
+  width:40px;
+  height:40px;
+  background:rgba(240,201,74,0.18);
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:1.3rem;
+  border:1px solid rgba(240,201,74,0.3);
+  box-shadow:0 2px 8px rgba(201,130,26,0.3);
+}
+.admin-title{
+  font-size:1.05rem;
+  font-weight:900;
+  color:#f0c94a;
+  font-family:'Amiri',serif;
+  letter-spacing:0.5px;
+}
+.admin-subtitle{
+  font-size:0.7rem;
+  color:rgba(255,255,255,0.5);
+  margin-top:1px;
+}
+.live-badge{
+  background:rgba(240,201,74,0.2);
+  color:#f0c94a;
+  font-size:0.58rem;
+  font-weight:900;
+  padding:2px 8px;
+  border-radius:50px;
+  border:1px solid rgba(240,201,74,0.35);
+  letter-spacing:1.5px;
+  margin-left:6px;
+  vertical-align:middle;
+  box-shadow:0 0 10px rgba(240,201,74,0.3);
+}
+.admin-close{
+  width:34px;
+  height:34px;
+  background:rgba(255,255,255,0.12);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  font-size:1rem;
+  color:rgba(255,255,255,0.8);
+  border:none;
+  transition:all 0.2s;
+  font-family:'Nunito',sans-serif;
+}
+.admin-close:hover{
+  background:rgba(255,255,255,0.25);
+}
+.btn-password-quick{
+  padding:8px 16px;
+  background:rgba(240,201,74,0.2);
+  color:#f0c94a;
+  border:1px solid rgba(240,201,74,0.4);
+  border-radius:10px;
+  font-size:0.75rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-family:'Nunito',sans-serif;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(201,130,26,0.2);
+}
+.btn-password-quick:hover{
+  background:rgba(240,201,74,0.3);
+  border-color:rgba(240,201,74,0.6);
+  transform:translateY(-1px);
+  box-shadow:0 4px 12px rgba(201,130,26,0.3);
+}
 .admin-tabs{display:flex;border-bottom:2px solid #f0f0f0;flex-shrink:0;background:#fafafa;overflow-x:auto;}
 .admin-tab{padding:11px 18px;font-size:0.8rem;font-weight:700;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all 0.2s;display:flex;align-items:center;gap:6px;white-space:nowrap;flex-shrink:0;}
 .admin-tab:hover{color:#1a6b3c;}
@@ -903,7 +1258,20 @@ input[type=file].qr-input{display:none;}
 </head>
 <body>
 <div class="screen">
+  <!-- ISLAMIC ORNAMENTS -->
+  <div class="islamic-border-top"></div>
+  <div class="islamic-border-bottom"></div>
+  <div class="islamic-corner top-left"></div>
+  <div class="islamic-corner top-right"></div>
+  <div class="islamic-corner bottom-left"></div>
+  <div class="islamic-corner bottom-right"></div>
+  <div class="islamic-pattern-overlay"></div>
+
   <div class="mosque-bg" id="mosque-bg"></div>
+
+  <!-- BISMILLAH -->
+  <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+
   <!-- TOP BAR -->
   <div class="top-bar">
     <div class="top-clock">
