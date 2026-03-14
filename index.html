@@ -1422,23 +1422,38 @@ input[type=file].qr-input{display:none;}
     <!-- TAB PASSWORD -->
     <div class="admin-body" id="body-password">
       <div class="section-title">🔐 Pengaturan Password Admin</div>
+
+      <!-- Info Password Saat Ini -->
+      <div style="background:linear-gradient(135deg,#e7f3ff,#d1e9fc);border-radius:14px;padding:16px;border:2px solid #b8daff;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="font-size:2rem;">🔑</div>
+            <div>
+              <div style="font-size:0.75rem;font-weight:800;color:#004085;">PASSWORD SAAT INI</div>
+              <div style="font-size:0.85rem;font-weight:900;color:#004085;" id="current-password-display">********</div>
+            </div>
+          </div>
+          <button onclick="showCurrentPassword()" style="padding:6px 12px;background:#0056b3;color:#fff;border:none;border-radius:8px;font-size:0.75rem;font-weight:700;cursor:pointer;">👁️ Lihat</button>
+        </div>
+      </div>
+
       <div style="background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:14px;padding:20px;border:2px solid #dee2e6;margin-bottom:16px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
           <div style="font-size:2.5rem;">🔐</div>
           <div>
-            <div style="font-size:0.85rem;font-weight:900;color:#495057;margin-bottom:4px;">Password Admin Saat Ini</div>
-            <div style="font-size:0.75rem;color:#6c757d;">Ganti password untuk keamanan panel admin masjid</div>
+            <div style="font-size:0.85rem;font-weight:900;color:#495057;margin-bottom:4px;">Ganti Password Admin</div>
+            <div style="font-size:0.75rem;color:#6c757d;">Masukkan password lama dan password baru untuk mengubah</div>
           </div>
         </div>
 
         <div style="display:grid;gap:14px;">
           <div class="modal-field">
             <label>Password Lama</label>
-            <input type="password" id="old-password" placeholder="Masukkan password lama">
+            <input type="password" id="old-password" placeholder="Masukkan password lama saat ini">
           </div>
           <div class="modal-field">
             <label>Password Baru</label>
-            <input type="password" id="new-password" placeholder="Masukkan password baru">
+            <input type="password" id="new-password" placeholder="Masukkan password baru (minimal 4 karakter)">
           </div>
           <div class="modal-field">
             <label>Konfirmasi Password Baru</label>
@@ -2056,7 +2071,9 @@ const TABS=["ticker","hadist","jadwal","tickersetting","masjid","kas","password"
 const DEFAULT_PASSWORD="masjid123";
 function getStoredPassword(){
   const stored=localStorage.getItem("masjidAdminPassword");
-  return stored?stored:DEFAULT_PASSWORD;
+  const password=stored?stored:DEFAULT_PASSWORD;
+  console.log("getStoredPassword - stored:", stored, "returned:", password);
+  return password;
 }
 function openAdmin(tab){
   // Show login overlay instead of direct admin panel
@@ -2070,6 +2087,7 @@ function openAdmin(tab){
 function checkAdminPassword(){
   const input=document.getElementById("admin-password-input").value;
   const correctPassword=getStoredPassword();
+  console.log("checkAdminPassword - input:", input, "correct:", correctPassword);
   if(input===correctPassword){
     // Password correct - close login and show admin
     document.getElementById("admin-login-overlay").classList.remove("show");
@@ -2088,10 +2106,14 @@ function checkAdminPassword(){
   }
 }
 function changePassword(){
+  console.log("changePassword dipanggil");
   const oldPass=document.getElementById("old-password").value;
   const newPass=document.getElementById("new-password").value;
   const confirmPass=document.getElementById("confirm-password").value;
   const currentPassword=getStoredPassword();
+
+  console.log("Password lama input:", oldPass);
+  console.log("Password saat ini:", currentPassword);
 
   // Validasi
   if(!oldPass||!newPass||!confirmPass){
@@ -2100,34 +2122,53 @@ function changePassword(){
   }
 
   if(oldPass!==currentPassword){
-    alert("❌ Password lama salah!");
+    alert("❌ Password lama salah!\n\nPassword yang Anda masukkan tidak sesuai dengan password saat ini.\n\nPassword saat ini: "+currentPassword);
     return;
   }
 
   if(newPass.length<4){
-    alert("❌ Password baru minimal 4 karakter!");
+    alert("❌ Password baru minimal 4 karakter!\n\nSilakan pilih password yang lebih panjang.");
     return;
   }
 
   if(newPass!==confirmPass){
-    alert("❌ Password baru dan konfirmasi tidak cocok!");
+    alert("❌ Password baru dan konfirmasi tidak cocok!\n\nPastikan Anda mengetik password baru dengan sama di kedua field.");
     return;
   }
 
   // Ganti password
-  localStorage.setItem("masjidAdminPassword",newPass);
+  try{
+    localStorage.setItem("masjidAdminPassword",newPass);
+    console.log("Password berhasil diubah ke:", newPass);
 
-  // Reset form
-  document.getElementById("old-password").value="";
-  document.getElementById("new-password").value="";
-  document.getElementById("confirm-password").value="";
+    // Update display
+    document.getElementById("current-password-display").textContent="********";
 
-  // Show success message
-  alert("✅ Password berhasil diubah!\n\nPassword baru Anda: "+newPass+"\n\nSilakan ingat password baru ini.");
+    // Reset form
+    document.getElementById("old-password").value="";
+    document.getElementById("new-password").value="";
+    document.getElementById("confirm-password").value="";
+
+    // Show success message
+    alert("✅ Password BERHASIL diubah!\n\nPassword lama: "+currentPassword+"\nPassword baru: "+newPass+"\n\nPassword baru telah tersimpan di browser. Silakan ingat password baru ini untuk login berikutnya.");
+  }catch(error){
+    console.error("Error mengubah password:", error);
+    alert("❌ Terjadi kesalahan saat mengubah password.\n\nError: "+error.message+"\n\nSilakan coba lagi.");
+  }
 }
 function cancelAdminLogin(){
   document.getElementById("admin-login-overlay").classList.remove("show");
   document.getElementById("admin-password-input").value="";
+}
+function showCurrentPassword(){
+  const currentPassword=getStoredPassword();
+  const display=document.getElementById("current-password-display");
+  if(display.textContent==="********"){
+    display.textContent=currentPassword;
+    setTimeout(()=>{
+      display.textContent="********";
+    },3000);
+  }
 }
 function closeAdmin(){
   console.log("closeAdmin dipanggil");
