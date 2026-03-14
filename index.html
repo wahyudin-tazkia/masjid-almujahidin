@@ -14,7 +14,7 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .mosque-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.22) 28%,rgba(0,0,0,0.04) 65%,transparent 80%);}
 
 /* TOP BAR */
-.top-bar{position:relative;z-index:10;display:flex;align-items:stretch;background:rgba(0,0,0,0.12);backdrop-filter:blur(3px);min-height:120px;box-shadow:0 2px 10px rgba(0,0,0,0.15);border-bottom:1px solid rgba(255,255,255,0.05);}
+.top-bar{position:relative;z-index:10;display:flex;align-items:stretch;background:rgba(255,255,255,0.95);backdrop-filter:blur(3px);min-height:120px;box-shadow:0 2px 10px rgba(0,0,0,0.15);border-bottom:1px solid rgba(0,0,0,0.1);}
 
 /* ===== CLOCK DESIGN - MODERN & ELEGANT ===== */
 .top-clock{
@@ -24,7 +24,7 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
   justify-content:center;
   padding:16px 28px;
   min-width:240px;
-  border-right:2px solid rgba(201,130,26,0.15);
+  border-right:2px solid rgba(201,130,26,0.25);
   background:linear-gradient(135deg,rgba(201,130,26,0.08),rgba(230,160,32,0.05));
   position:relative;
   overflow:hidden;
@@ -64,10 +64,10 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .clock-time{
   font-size:3.6rem;
   font-weight:900;
-  color:#ffffff;
+  color:#1a1a1a;
   line-height:1;
   letter-spacing:-3px;
-  text-shadow:0 2px 8px rgba(0,0,0,0.8),0 0 20px rgba(255,255,255,0.3);
+  text-shadow:0 1px 2px rgba(0,0,0,0.1);
   font-family:'Nunito',sans-serif;
   position:relative;
   animation:timePulse 2s ease-in-out infinite;
@@ -81,8 +81,8 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .clock-ampm{
   font-size:1rem;
   font-weight:800;
-  color:#ffffff;
-  text-shadow:0 0 10px rgba(255,255,255,0.5);
+  color:#1a6b3c;
+  text-shadow:0 1px 2px rgba(0,0,0,0.1);
   letter-spacing:1px;
   text-transform:uppercase;
   margin-left:4px;
@@ -158,7 +158,7 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .minaret{width:3px;height:18px;background:linear-gradient(to bottom,#c9821a,#e6a020);border-radius:2px;}
 .minaret.tall{height:28px;}
 /* NAMA MASJID BESAR */
-.masjid-name-text{font-size:2.7rem;font-weight:900;color:#ffffff;display:flex;align-items:center;gap:14px;margin-top:20px;letter-spacing:-1.5px;line-height:1;font-family:'Nunito',sans-serif;position:relative;animation:masjidNameFloat 4s ease-in-out infinite;text-shadow:0 2px 8px rgba(0,0,0,0.8),0 0 20px rgba(255,255,255,0.3);}
+.masjid-name-text{font-size:2.7rem;font-weight:900;color:#1a1a1a;display:flex;align-items:center;gap:14px;margin-top:20px;letter-spacing:-1.5px;line-height:1;font-family:'Nunito',sans-serif;position:relative;animation:masjidNameFloat 4s ease-in-out infinite;text-shadow:0 1px 2px rgba(0,0,0,0.1);}
 @keyframes masjidNameFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-3px);}}
 .masjid-name-text::before{
   content:'';
@@ -173,14 +173,14 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
 .masjid-name-text .icon{font-size:2.3rem;display:inline-block;animation:mosqueIconSwing 3s ease-in-out infinite;filter:drop-shadow(0 2px 4px rgba(201,130,26,0.3));}
 @keyframes mosqueIconSwing{0%,100%{transform:rotate(-3deg);}50%{transform:rotate(3deg);}}
 .masjid-name-text span:not(.icon){
-  background:linear-gradient(135deg,#ffffff 0%,#e8e8e8 30%,#ffffff 50%,#e8e8e8 70%,#ffffff 100%);
+  background:linear-gradient(135deg,#1a1a1a 0%,#2d5016 30%,#1a6b3c 50%,#2d5016 70%,#1a1a1a 100%);
   background-size:200% auto;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   background-clip:text;
   animation:textShimmer 5s linear infinite;
   position:relative;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,0.2));
 }
 @keyframes textShimmer{to{background-position:200% center;}}
 .masjid-name-text span:not(.icon)::after{
@@ -198,12 +198,12 @@ body{font-family:'Nunito',sans-serif;background:#111;width:100vw;height:100vh;ov
   animation:textGlow 2s ease-in-out infinite;
 }
 @keyframes textGlow{0%,100%{opacity:0.2;filter:blur(8px);}50%{opacity:0.4;filter:blur(12px);}}
-.masjid-address{font-size:0.82rem;color:#ffffff;font-weight:600;margin-top:4px;letter-spacing:0.2px;position:relative;animation:addressFade 4s ease-in-out infinite;text-shadow:0 1px 4px rgba(0,0,0,0.8);}
+.masjid-address{font-size:0.82rem;color:#666;font-weight:600;margin-top:4px;letter-spacing:0.2px;position:relative;animation:addressFade 4s ease-in-out infinite;text-shadow:none;}
 @keyframes addressFade{0%,100%{opacity:0.8;}50%{opacity:1;}}
 .top-date{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding:10px 28px;min-width:230px;}
-.hijri-date{font-family:'Noto Serif',serif;font-size:1.2rem;font-weight:700;color:#ffffff;line-height:1.25;text-shadow:0 1px 4px rgba(0,0,0,0.8);}
-.masehi-date{font-size:0.85rem;color:#ffffff;font-weight:600;margin-top:3px;text-shadow:0 1px 4px rgba(0,0,0,0.8);}
-.gps-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;font-weight:700;color:#4ade80;margin-top:5px;background:rgba(74,222,128,0.15);padding:2px 8px;border-radius:50px;border:1px solid rgba(74,222,128,0.3);text-shadow:0 1px 3px rgba(0,0,0,0.8);}
+.hijri-date{font-family:'Noto Serif',serif;font-size:1.2rem;font-weight:700;color:#1a1a1a;line-height:1.25;text-shadow:0 1px 2px rgba(0,0,0,0.1);}
+.masehi-date{font-size:0.85rem;color:#666;font-weight:600;margin-top:3px;text-shadow:none;}
+.gps-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;font-weight:700;color:#1a6b3c;margin-top:5px;background:rgba(26,107,60,0.1);padding:2px 8px;border-radius:50px;border:1px solid rgba(26,107,60,0.2);text-shadow:none;}
 
 /* TICKER */
 .ticker-strip{background:linear-gradient(90deg,#0f3d22,#1a6b3c,#0f3d22);color:#f0c94a;overflow:hidden;position:relative;z-index:10;cursor:pointer;user-select:none;}
