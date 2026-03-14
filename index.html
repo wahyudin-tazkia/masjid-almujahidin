@@ -367,6 +367,28 @@ input[type=file].qr-input{display:none;}
 /* ===== ADMIN PANEL ===== */
 .admin-overlay{position:fixed;inset:0;z-index:2000;background:rgba(3,14,7,0.82);display:none;align-items:flex-start;justify-content:center;backdrop-filter:blur(6px);padding-top:44px;overflow-y:auto;}
 .admin-overlay.show{display:flex;}
+/* Admin Login Styles */
+.admin-login-overlay{position:fixed;inset:0;z-index:2100;background:rgba(0,0,0,0.85);display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.admin-login-overlay.show{display:flex;}
+.admin-login-box{background:#fff;border-radius:20px;width:420px;max-width:94vw;box-shadow:0 20px 60px rgba(0,0,0,0.5);animation:panelSlide 0.3s ease;overflow:hidden;}
+.admin-login-header{background:linear-gradient(135deg,#1a6b3c,#081a0e);padding:24px;text-align:center;border-bottom:3px solid #f0c94a;}
+.admin-login-logo{font-size:3rem;margin-bottom:12px;animation:logoGlow 2s ease-in-out infinite;}
+@keyframes logoGlow{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
+.admin-login-title{font-size:1.15rem;font-weight:900;color:#f0c94a;margin-bottom:4px;font-family:'Nunito',sans-serif;}
+.admin-login-subtitle{font-size:0.75rem;color:rgba(255,255,255,0.6);font-weight:600;}
+.admin-login-body{padding:24px;}
+.login-field{margin-bottom:16px;}
+.login-field label{display:block;font-size:0.7rem;font-weight:800;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.login-field input{width:100%;padding:12px 16px;border:2px solid #e0e0e0;border-radius:12px;font-size:0.95rem;font-family:'Nunito',sans-serif;font-weight:600;outline:none;transition:all 0.2s;}
+.login-field input:focus{border-color:#1a6b3c;box-shadow:0 0 0 3px rgba(26,107,60,0.1);}
+.login-actions{display:flex;gap:10px;margin-bottom:12px;}
+.btn-login{flex:1;padding:12px;background:linear-gradient(135deg,#1a6b3c,#2d9e5f);color:#fff;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:800;cursor:pointer;transition:all 0.2s;}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,107,60,0.3);}
+.btn-cancel{padding:12px 16px;background:#f5f5f5;color:#666;border:none;border-radius:12px;font-family:'Nunito',sans-serif;font-size:0.85rem;font-weight:700;cursor:pointer;}
+.btn-cancel:hover{background:#e8e8e8;}
+.login-hint{font-size:0.7rem;color:#888;text-align:center;padding:8px;background:#f8f8f8;border-radius:8px;margin-bottom:8px;}
+.login-error{font-size:0.75rem;color:#b52424;text-align:center;padding:8px;background:#ffeaea;border-radius:8px;display:none;}
+.login-error.show{display:block;}
 .admin-panel{background:#fff;border-radius:22px;width:800px;max-width:96vw;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,0.55);animation:panelSlide 0.38s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;margin-bottom:40px;}
 @keyframes panelSlide{from{transform:translateY(-28px) scale(0.96);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}
 .admin-header{background:linear-gradient(135deg,#081a0e,#1a6b3c);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
@@ -1022,6 +1044,29 @@ input[type=file].qr-input{display:none;}
       </div>
     </div>
     <div class="iqamah-sholat-name" id="iqamah-target-time">Iqamah pukul --:--</div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div class="admin-login-overlay" id="admin-login-overlay">
+  <div class="admin-login-box">
+    <div class="admin-login-header">
+      <div class="admin-login-logo">🔐</div>
+      <div class="admin-login-title">Login Admin Masjid</div>
+      <div class="admin-login-subtitle">Masukkan password untuk mengakses panel admin</div>
+    </div>
+    <div class="admin-login-body">
+      <div class="login-field">
+        <label>Password Admin</label>
+        <input type="password" id="admin-password-input" placeholder="Masukkan password..." onkeypress="if(event.key==='Enter')checkAdminPassword()">
+      </div>
+      <div class="login-actions">
+        <button class="btn-login" onclick="checkAdminPassword()">🔓 Masuk</button>
+        <button class="btn-cancel" onclick="cancelAdminLogin()">✕ Batal</button>
+      </div>
+      <div class="login-hint">💡 Password default: <strong>masjid123</strong></div>
+      <div class="login-error" id="login-error"></div>
+    </div>
   </div>
 </div>
 
@@ -1964,7 +2009,40 @@ function loadSavedQRs(){["qr-img-1","qr-img-2","qr-img-3"].forEach(id=>{try{cons
 // ═══════════════════════════════════════════════════
 let selEmoji=null,editType=null,editIdx=null;
 const TABS=["ticker","hadist","jadwal","tickersetting","masjid","kas"];
-function openAdmin(tab){syncAdminFields();renderTickerList();renderHadistList();updateFooterInfo();switchTab(tab||"ticker");document.getElementById("admin-overlay").classList.add("show");}
+// Admin password system
+const ADMIN_PASSWORD="masjid123"; // Password default - bisa diubah
+function openAdmin(tab){
+  // Show login overlay instead of direct admin panel
+  document.getElementById("admin-login-overlay").classList.add("show");
+  document.getElementById("admin-password-input").value="";
+  document.getElementById("admin-password-input").focus();
+  document.getElementById("login-error").classList.remove("show");
+  // Store the target tab to open after login
+  window.pendingAdminTab=tab;
+}
+function checkAdminPassword(){
+  const input=document.getElementById("admin-password-input").value;
+  if(input===ADMIN_PASSWORD){
+    // Password correct - close login and show admin
+    document.getElementById("admin-login-overlay").classList.remove("show");
+    syncAdminFields();
+    renderTickerList();
+    renderHadistList();
+    updateFooterInfo();
+    switchTab(window.pendingAdminTab||"ticker");
+    document.getElementById("admin-overlay").classList.add("show");
+  }else{
+    // Password wrong - show error
+    document.getElementById("login-error").textContent="❌ Password salah! Coba lagi.";
+    document.getElementById("login-error").classList.add("show");
+    document.getElementById("admin-password-input").value="";
+    document.getElementById("admin-password-input").focus();
+  }
+}
+function cancelAdminLogin(){
+  document.getElementById("admin-login-overlay").classList.remove("show");
+  document.getElementById("admin-password-input").value="";
+}
 function closeAdmin(){
   console.log("closeAdmin dipanggil");
   const overlay = document.getElementById("admin-overlay");
